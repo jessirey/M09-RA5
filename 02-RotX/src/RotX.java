@@ -41,6 +41,14 @@ public class RotX {
         return transformar(cadena, mapa);
     }
 
+    public static void forcaBrutaRotX(String cadenaXifrada) {
+
+        for(int i = 0; i < MAJUSCULES.length; i++) {
+
+            System.out.println("(" + i + ")->" + desxifraRotX(cadenaXifrada, i));
+        }
+    }
+
     private static String transformar(String cadena, Map<Character, Character> mapa) {
         String resultado = "";
 
@@ -78,5 +86,10 @@ public class RotX {
             msgsXifrats[i] = desxifraRotX(xifratX, POSICIONES[i % POSICIONES.length]);
             System.out.printf("(%d)%-23s => %s%n", POSICIONES[i], xifratX, msgsXifrats[i]);
         }
+
+        String fuerzaB = "Úiüht, úiü wx ùxì ív?";
+        System.out.println("\nMissatge xifrat: Úiüht, úiü wx ùxì ív?\n------");
+
+        forcaBrutaRotX(fuerzaB);
     }
 }
