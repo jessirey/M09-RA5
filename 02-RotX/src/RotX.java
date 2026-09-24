@@ -1,43 +1,44 @@
 import java.util.*;
 
-public class Rot13 {
+public class RotX {
 
-    private static char [] majuscules = {'A', 'Á', 'À', 'B', 'C', 'Ç', 'D', 'E', 'É', 'È',
-                'F', 'G', 'H', 'I', 'Í', 'Ì', 'Ï', 'J', 'K', 'L',
-                'M', 'N', 'Ñ', 'O', 'Ó', 'Ò', 'P', 'Q', 'R', 'S',
-                'T', 'U', 'Ú', 'Ù', 'Ü', 'V', 'W', 'X', 'Y', 'Z'};
+    private static final String ALFABETO = "aáàbcçdeéèfghiíìïjklmnñoóòpqrstuúùüvwxyz";
+    private static final char [] MAJUSCULES = ALFABETO.toUpperCase().toCharArray();
+    private static final char [] MINUSCULES = ALFABETO.toCharArray();
 
-    private static char [] minuscules = {'a', 'á', 'à', 'b', 'c', 'ç', 'd', 'e', 'é', 'è',
-                'f', 'g', 'h', 'i', 'í', 'ì', 'ï', 'j', 'k', 'l',
-                'm', 'n', 'ñ', 'o', 'ó', 'ò', 'p', 'q', 'r', 's',
-                't', 'u', 'ú', 'ù', 'ü', 'v', 'w', 'x', 'y', 'z'};
+    private static final int[] POSICIONES = {0, 2, 4, 6};
 
-    private static Map<Character, Character> mapCifrado = crearMap(13);
-    private static Map<Character, Character> mapDescifrado = crearMap(-13);
-
-    private static Map<Character, Character> crearMap(int posicion) {
+    private static Map<Character, Character> crearMap(int posicion, boolean derecha) {
         Map<Character, Character> mapa = new HashMap<>();
 
-        for (int i = 0; i < majuscules.length; i++) {
-            int nuevaPosicion = (i + posicion) % majuscules.length;
-
+        for (int i = 0; i < MAJUSCULES.length; i++) {
+            int nuevaPosicion;
+            if (derecha) {
+                nuevaPosicion = (i + posicion) % MAJUSCULES.length;
+            } else {
+                nuevaPosicion = (i - posicion) % MAJUSCULES.length;
+            }
             if (nuevaPosicion < 0) {
-                nuevaPosicion += majuscules.length;
+                nuevaPosicion += MAJUSCULES.length;
             }
 
-            mapa.put(majuscules[i], majuscules[nuevaPosicion]);
-            mapa.put(minuscules[i], minuscules[nuevaPosicion]);
+            mapa.put(MAJUSCULES[i], MAJUSCULES[nuevaPosicion]);
+            mapa.put(MINUSCULES[i], MINUSCULES[nuevaPosicion]);
         }
 
         return mapa;
     }
 
-    public static String xifraRot13(String cadena) {
-        return transformar(cadena, mapCifrado);
+    public static String xifraRotX(String cadena, int desplaçament) {
+
+        Map<Character, Character> mapa = crearMap(desplaçament, true);
+        return transformar(cadena, mapa);
     }
 
-    public static String desxifraRot13(String cadena) {
-        return transformar(cadena, mapDescifrado);
+    public static String desxifraRotX(String cadena, int desplaçament) {
+
+        Map<Character, Character> mapa = crearMap(desplaçament, false);
+        return transformar(cadena, mapa);
     }
 
     private static String transformar(String cadena, Map<Character, Character> mapa) {
@@ -64,15 +65,18 @@ public class Rot13 {
         System.out.println("\nXifrat\n------");
 
         for (int i = 0; i < msgs.length; i++) {
-            msgsXifrats[i] = xifraRot13(msgs[i]);
-            System.out.printf("%-23s => %s%n", msgs[i], msgsXifrats[i]);
+            msgsXifrats[i] = xifraRotX(msgs[i], POSICIONES[i % POSICIONES.length]);
+            System.out.printf("(%d)-%-23s => %s%n", POSICIONES[i], msgs[i], msgsXifrats[i]);
         }
 
 
         System.out.println("\nDesxifrat\n------");
 
-        for (String msg: msgsXifrats) {
-            System.out.printf("%-23s => %s%n", msg, desxifraRot13(msg));
+        for (int i= 0; i < msgs.length; i++) {
+
+            String xifratX = msgsXifrats[i];
+            msgsXifrats[i] = desxifraRotX(xifratX, POSICIONES[i % POSICIONES.length]);
+            System.out.printf("(%d)%-23s => %s%n", POSICIONES[i], xifratX, msgsXifrats[i]);
         }
     }
 }
