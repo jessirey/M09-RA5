@@ -12,17 +12,16 @@ public class Polialfabetic {
     public static void permutaAlfabet() {
 
         PERMUTAT = new char[ALFABET.length];
+        List<Character> permutado = new ArrayList<>();
 
         for(int i = 0; i < ALFABET.length; i++) {
-            PERMUTAT[i] = ALFABET[i];
+            permutado.add(ALFABET[i]);
         }
 
-        for (int i = 0; i < PERMUTAT.length; i++) {
-            int j = random.nextInt(PERMUTAT.length);
+        Collections.shuffle(permutado, random);
 
-            char aux = PERMUTAT[i];
-            PERMUTAT[i] = PERMUTAT[j];
-            PERMUTAT[j] = aux;
+        for (int i = 0; i < PERMUTAT.length; i++) {
+            PERMUTAT[i] = permutado.get(i);
         }
     }
 
