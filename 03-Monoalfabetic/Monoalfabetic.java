@@ -4,24 +4,23 @@ public class Monoalfabetic {
 
     private static final String ALFABETO = "aáàbcçdeéèfghiíìïjklmnñoóòpqrstuúùüvwxyz";
     private static final char [] ALFABET = ALFABETO.toUpperCase().toCharArray();
-    private static final char [] PERMUTAT = permutaAlfabet(ALFABET);
+    private static final char [] PERMUTAT;
 
-    private static char[] permutaAlfabet(char[] ALFABET) {
+    private static void permutaAlfabet() {
 
-        char[] permutado = new char[ALFABET.length];
-        List<Character> permutat = new ArrayList<>();
+        PERMUTAT = new char[ALFABET.length];
 
         for(int i = 0; i < ALFABET.length; i++) {
-            permutat.add(ALFABET[i]);
+            PERMUTAT[i] = ALFABET[i];
         }
 
-        Collections.shuffle(permutat);
+        for (int i = 0; i < PERMUTAT.length; i++) {
+            int j = random.nextInt(PERMUTAT.length);
 
-        for (int i = 0; i < permutat.size(); i++) {
-            permutado[i] = permutat.get(i);
+            char aux = PERMUTAT[i];
+            PERMUTAT[i] = PERMUTAT[j];
+            PERMUTAT[j] = aux;
         }
-
-        return permutado;
     }
 
     public static String xifraMonoAlfa(String cadena) {
