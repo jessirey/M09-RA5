@@ -1,10 +1,11 @@
 package iticbcn.xifratge;
 
 import java.security.KeyPair;
-import javax.xml.blind.DatatypeConverter;
+
+import javax.xml.bind.DatatypeConverter;
 
 public class Main {
-    public static void main(String[] args) {
+        public static void main(String[] args) throws Exception {
 
         ClauPublica cp = new ClauPublica();
 
@@ -16,17 +17,17 @@ public class Main {
 
         System.out.println("=====================================");
         System.out.println("Text xifrat");
-        System.out.println(DatatypeConvert.printHexBinary(msgXifrat));
+        System.out.println(DatatypeConverter.printHexBinary(msgXifrat));
 
 
-        String msgDesxifrat = cp.desxifraRSA(msg.xifrat, parellClaus.getPrivate());
+        String msgDesxifrat = cp.desxifraRSA(msgXifrat, parellClaus.getPrivate());
         System.out.println("=====================================");
         System.out.println("Text desxifrat: " + msgDesxifrat);
 
 
-        String strClauPub = DatatypeConverter.printHexBinary(parellClaus.getPublic().getEncode());
+        String strClauPub = DatatypeConverter.printHexBinary(parellClaus.getPublic().getEncoded());
 
-        String strClauPriv = DatatypeConverter.printHexBinary(parellClaus.getPublic().getEncode());
+        String strClauPriv = DatatypeConverter.printHexBinary(parellClaus.getPublic().getEncoded());
 
         System.out.println("=====================================");
         System.out.println("Clau pública: " + strClauPub);
@@ -34,6 +35,4 @@ public class Main {
         System.out.println("Clau privada: " + strClauPriv);
 
     }
-
-
-}
+}    
